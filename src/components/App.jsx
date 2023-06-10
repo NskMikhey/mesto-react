@@ -1,6 +1,7 @@
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
+import PopupWithForm from "./PopupWithForm";
 
 function App() {
   return (
@@ -9,6 +10,9 @@ function App() {
       <Header />
       <Main />
       <Footer />
+      <PopupWithForm
+       
+      />
 
       {/* Edit profile popup */}
       <section className="popup edit-profile">
