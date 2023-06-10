@@ -1,46 +1,15 @@
-
+import Header from "./Header";
+import Footer from "./Footer";
+import Main from "./Main";
 
 function App() {
   return (
-    <div className="page-content">
-      <header className="header">
-        <img
-          className="header__logo"
-          src="#"
-          alt="лого место"
-        />
-      </header>
-      <main className="content">
-        <section className="profile">
-          <button
-            className="profile__edit-avatar-button button-hover"
-            aria-label="Редактировать аватар"
-          />
-          <img className="profile__avatar" src="#" alt="аватар" />
-          <div className="profile__info">
-            <h1 className="profile__name"> </h1>
-            <button
-              className="profile__edit-button button-hover"
-              type="button"
-              title="Отредактировать данные"
-              aria-label="Редактировать профиль"
-            />
-            <p className="profile__about" />
-          </div>
-          <button
-            className="profile__add-button button-hover"
-            type="button"
-            title="Добавить фото"
-            aria-label="Добавить фото"
-          />
-        </section>
-        <section className="elements" aria-label="фото карточки" />
-        <footer className="footer">
-          <p className="footer__copyright" lang="en">
-            © 2023 Mesto Russia
-          </p>
-        </footer>
-      </main>
+    <div className="content">
+
+      <Header />
+      <Main />
+      <Footer />
+
       {/* Edit profile popup */}
       <section className="popup edit-profile">
         <div className="popup__container">
