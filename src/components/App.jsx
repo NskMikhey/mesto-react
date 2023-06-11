@@ -9,7 +9,7 @@ import ImagePopup from "./ImagePopup";
 
 function App() {
 
-  
+
   // Состояние Popup редактирования профиля 
   const [editProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
@@ -20,6 +20,12 @@ function App() {
   // Состояние Popup редактирования аватара 
   const [updateAvatarPopupOpen, setUpdateAvatarPopupOpen] =
     React.useState(false);
+
+  // Состояние выбранной для просмотра карточки 
+  const [selectedCard, setSelectedCard] = React.useState({
+    name: "",
+    link: "",
+  });
 
   // Открывает Popup редактирования профиля 
   function handleEditProfileClick() {
@@ -34,13 +40,17 @@ function App() {
     setUpdateAvatarPopupOpen(true);
   }
 
+  //Устанавливает выбранную карточку по нажатию
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   /** Закрывает все Popup / сбрасывает состояния */
   function closeAllPopups() {
-
     setEditProfilePopupOpen(false);
     setNewPlacePopupOpen(false);
     setUpdateAvatarPopupOpen(false);
-
+    setSelectedCard({name: "", link: ""});
   }
 
   return (
@@ -51,6 +61,7 @@ function App() {
         onEditProfile={handleEditProfileClick} // редактирование профиля
         onNewPlace={handleNewPlaceClick} // добавление карточки
         onUpdateAvatar={handleUpdateAvatarClick} // редактирование аватара
+        onCardClick={handleCardClick} // нажатие на карточку
       />
       <Footer />
 
@@ -155,6 +166,8 @@ function App() {
 
       {/* View image popup */}
       <ImagePopup
+        popupOpen={updateAvatarPopupOpen}
+        card={selectedCard}
         onClose={closeAllPopups}
       />
     </div>

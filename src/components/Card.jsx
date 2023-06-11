@@ -1,8 +1,14 @@
 const Card = (props) => {
+
     const {name, link} = props.card;
+
+    // Нажатие на карточку 
+    function handleClick() {
+        props.onCardClick(props.card);
+    }
     return (
         <article className="card">
-            <img src={`${link}`} alt={name} className="card__image" />
+            <img src={`${link}`} alt={name} className="card__image" onClick={handleClick}/>
             <button
                 type="button"
                 className="card__remove button-hover"
