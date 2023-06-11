@@ -6,8 +6,10 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 
 
+
 function App() {
 
+  
   // Состояние Popup редактирования профиля 
   const [editProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);

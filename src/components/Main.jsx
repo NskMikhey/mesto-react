@@ -1,4 +1,21 @@
+import { useEffect, useState } from "react";
+import api from "../utils/api";
+// import 
 const Main = (props) => {
+    const [userName, setUserName] = useState('')
+    const [userAbout, setUserAbout] = useState('')
+    const [userAvatar, setUserAvatar] = useState('')
+    // const [cards, setCards] = useState('')
+    useEffect(() => {
+        Promise.all([api.getUserData(), api.getInitialCards()])
+            .then(([dataUser, dataCard]) => {
+                setUserName(dataUser.name)
+                setUserAbout(dataUser.about)
+                setUserAvatar(dataUser.avatar)
+            })
+            .catch(console.error)
+    })
+
     return (
         <main>
             <section className="profile">
@@ -7,9 +24,9 @@ const Main = (props) => {
                     aria-label="Редактировать аватар"
                     onClick={props.onUpdateAvatar}
                 />
-                <img className="profile__avatar" src="#" alt="аватар" />
+                <img className="profile__avatar" src={userAvatar} alt="аватар" />
                 <div className="profile__info">
-                    <h1 className="profile__name"> </h1>
+                    <h1 className="profile__name">{userName}</h1>
                     <button
                         className="profile__edit-button button-hover"
                         type="button"
@@ -17,7 +34,7 @@ const Main = (props) => {
                         aria-label="Редактировать профиль"
                         onClick={props.onEditProfile}
                     />
-                    <p className="profile__about" />
+                    <p className="profile__about">{userAbout}</p>
                 </div>
                 <button
                     className="profile__add-button button-hover"
