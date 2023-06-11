@@ -7,15 +7,23 @@ import ImagePopup from "./ImagePopup";
 
 
 function App() {
+
+    
+
   return (
     <div className="content">
 
       <Header />
       <Main />
       <Footer />
-      <PopupWithForm
 
+      {/* Delete card popup */}
+      <PopupWithForm
+        popupType="delete-popup"
+        popupTitle="Вы уверены?"
+        submitButtonText="Да"
       />
+
       {/* View image popup */}
       <ImagePopup />
 
@@ -131,8 +139,8 @@ function App() {
         </div>
       </section>
 
-      {/* Delete card popup */}
-      <section className="popup delete-popup">
+      
+      {/* <section className="popup delete-popup">
         <div className="popup__container">
           <button
             className="popup__close-button button-hover"
@@ -154,7 +162,7 @@ function App() {
             </button>
           </form>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

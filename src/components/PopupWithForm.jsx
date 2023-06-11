@@ -3,8 +3,30 @@ import React from "react";
 
 const PopupWithForm = (props) => {
     return (
-        <div>
-            
+        <div className={[
+            props.popupOpen ? "popup popup_is-opened " : "popup", `popup_${props.popupType}`
+        ].join(' ')}>
+            <div className={[
+                "popup__container", `popup__container_${props.popupType}`
+            ].join(' ')}>
+                <button
+                    className="popup__close-button button-hover"
+                    type="button" aria-label="Закрыть всплывающее окно"
+                    onClick={props.onClose} />
+                <h2 className="popup__title">{props.popupTitle}</h2>
+                <form className={[
+                    "popup__form", `popup__form_${props.popupType}`
+                ].join(' ')}
+                    name={props.popupFormName}>
+                    {props.children}
+                    <button className={[
+                        "popup__submit", `popup__submit_${props.popupType}`
+                    ].join(' ')}
+                        type="submit"
+                        data-value={props.submitButtonText}>{props.submitButtonText}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };
