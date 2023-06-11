@@ -32,6 +32,15 @@ function App() {
     setUpdateAvatarPopupOpen(true);
   }
 
+  /** Закрывает все Popup / сбрасывает состояния */
+  function closeAllPopups() {
+
+    setEditProfilePopupOpen(false);
+    setNewPlacePopupOpen(false);
+    setUpdateAvatarPopupOpen(false);
+
+  }
+
   return (
     <div className="content">
 
@@ -49,7 +58,7 @@ function App() {
         popupTitle="Редактировать профиль"
         submitButtonText="Сохранить"
         popupOpen={editProfilePopupOpen}
-
+        onClose={closeAllPopups}
       >
         <label className="popup__input-group" htmlFor="name">
           <input
@@ -85,6 +94,7 @@ function App() {
         popupTitle="Новое место"
         submitButtonText="Создать"
         popupOpen={newPlacePopupOpen}
+        onClose={closeAllPopups}
       >
         <label className="popup__input-group" htmlFor="place-title">
           <input
@@ -118,6 +128,7 @@ function App() {
         popupTitle="Обновить аватар"
         submitButtonText="Сохранить"
         popupOpen={updateAvatarPopupOpen}
+        onClose={closeAllPopups}
       >
         <label className="popup__input-group" htmlFor="avatar_url">
           <input
@@ -137,10 +148,13 @@ function App() {
         popupType="delete-popup"
         popupTitle="Вы уверены?"
         submitButtonText="Да"
+        onClose={closeAllPopups}
       />
 
       {/* View image popup */}
-      <ImagePopup />
+      <ImagePopup
+        onClose={closeAllPopups}
+      />
     </div>
   );
 }
