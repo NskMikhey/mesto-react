@@ -1,20 +1,23 @@
 import { useEffect, useState } from "react";
 import api from "../utils/api";
+import Card from "./Card";
 // import 
 const Main = (props) => {
     const [userName, setUserName] = useState('')
     const [userAbout, setUserAbout] = useState('')
     const [userAvatar, setUserAvatar] = useState('')
-    // const [cards, setCards] = useState('')
+    const [cards, setCards] = useState([])
+
     useEffect(() => {
         Promise.all([api.getUserData(), api.getInitialCards()])
             .then(([dataUser, dataCard]) => {
                 setUserName(dataUser.name)
                 setUserAbout(dataUser.about)
                 setUserAvatar(dataUser.avatar)
+                dataCard.forEach(data => data.myid = dataUser._id)
+                setCards(dataCard)
             })
-            .catch(console.error)
-    })
+    }, [])
 
     return (
         <main>
@@ -44,7 +47,22 @@ const Main = (props) => {
                     onClick={props.onNewPlace}
                 />
             </section>
-            <section className="elements" aria-label="фото карточки" />
+            <section className="gallery">
+                <ul className="elements">
+                    {cards.map(data => {
+                        return (
+                            <Card
+                                card={data}
+                                key={data._id}
+                                onCardClick={props.onCardClick} // нажатие на карточку
+                                onDeleteCard={props.onDeleteCard}
+                                onCardLike={props.onCardLike}
+                            />
+                        )
+                    })
+                    }
+                </ul>
+            </section>
         </main>
     )
 };
