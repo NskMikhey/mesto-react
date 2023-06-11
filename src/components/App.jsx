@@ -8,13 +8,28 @@ import ImagePopup from "./ImagePopup";
 
 function App() {
 
-  /** Состояние всплывашки редактирования профиля */
+  // Состояние Popup редактирования профиля 
   const [editProfilePopupOpen, setEditProfilePopupOpen] =
     React.useState(false);
 
-  /** Открывает всплывашку редактирования профиля */
+  // Состояние Popup добавления карточки 
+  const [newPlacePopupOpen, setNewPlacePopupOpen] = React.useState(false);
+
+  // Состояние Popup редактирования аватара 
+  const [updateAvatarPopupOpen, setUpdateAvatarPopupOpen] =
+    React.useState(false);
+
+  // Открывает Popup редактирования профиля 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
+  }
+  // Открывает Popup добавления карточки 
+  function handleNewPlaceClick() {
+    setNewPlacePopupOpen(true);
+  }
+  // Открывает Popup редактирования аватара 
+  function handleUpdateAvatarClick() {
+    setUpdateAvatarPopupOpen(true);
   }
 
   return (
@@ -23,6 +38,8 @@ function App() {
       <Header />
       <Main
         onEditProfile={handleEditProfileClick} // редактирование профиля
+        onNewPlace={handleNewPlaceClick} // добавление карточки
+        onUpdateAvatar={handleUpdateAvatarClick} // редактирование аватара
       />
       <Footer />
 
@@ -31,7 +48,7 @@ function App() {
         popupType="edit-profile"
         popupTitle="Редактировать профиль"
         submitButtonText="Сохранить"
-        popupOpen = {editProfilePopupOpen}
+        popupOpen={editProfilePopupOpen}
 
       >
         <label className="popup__input-group" htmlFor="name">
@@ -67,6 +84,7 @@ function App() {
         popupType="new-place"
         popupTitle="Новое место"
         submitButtonText="Создать"
+        popupOpen={newPlacePopupOpen}
       >
         <label className="popup__input-group" htmlFor="place-title">
           <input
@@ -99,6 +117,7 @@ function App() {
         popupType="avatar-popup"
         popupTitle="Обновить аватар"
         submitButtonText="Сохранить"
+        popupOpen={updateAvatarPopupOpen}
       >
         <label className="popup__input-group" htmlFor="avatar_url">
           <input

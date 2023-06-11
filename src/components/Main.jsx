@@ -5,6 +5,7 @@ const Main = (props) => {
                 <button
                     className="profile__edit-avatar-button button-hover"
                     aria-label="Редактировать аватар"
+                    onClick={props.onUpdateAvatar}
                 />
                 <img className="profile__avatar" src="#" alt="аватар" />
                 <div className="profile__info">
@@ -23,6 +24,7 @@ const Main = (props) => {
                     type="button"
                     title="Добавить фото"
                     aria-label="Добавить фото"
+                    onClick={props.onNewPlace}
                 />
             </section>
             <section className="elements" aria-label="фото карточки" />
