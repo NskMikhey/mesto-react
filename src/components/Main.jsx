@@ -1,4 +1,4 @@
-const Main = () => {
+const Main = (props) => {
     return (
         <main>
             <section className="profile">
@@ -14,6 +14,7 @@ const Main = () => {
                         type="button"
                         title="Отредактировать данные"
                         aria-label="Редактировать профиль"
+                        onClick={props.onEditProfile}
                     />
                     <p className="profile__about" />
                 </div>
