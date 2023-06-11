@@ -1,7 +1,10 @@
+// import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
+
 
 function App() {
   return (
@@ -11,8 +14,10 @@ function App() {
       <Main />
       <Footer />
       <PopupWithForm
-       
+
       />
+      {/* View image popup */}
+      <ImagePopup />
 
       {/* Edit profile popup */}
       <section className="popup edit-profile">
@@ -57,6 +62,7 @@ function App() {
         </div>
       </section>
       {/* New place popup */}
+
       <section className="popup new-place">
         <div className="popup__container">
           <button
@@ -96,6 +102,7 @@ function App() {
           </form>
         </div>
       </section>
+
       {/* Update avatar popup */}
       <section className="popup avatar-popup">
         <div className="popup__container">
@@ -123,18 +130,7 @@ function App() {
           </form>
         </div>
       </section>
-      {/* View image popup */}
-      <section className="popup image-popup" aria-label="попап зума">
-        <div className="popup__image-container" aria-label="зум карточки">
-          <button
-            className="popup__close-button button-hover"
-            type="button"
-            aria-label="Закрыть окно"
-          />
-          <img src="#" alt="Описание картинки" className="popup__image" />
-          <p className="popup__image-title" />
-        </div>
-      </section>
+
       {/* Delete card popup */}
       <section className="popup delete-popup">
         <div className="popup__container">
