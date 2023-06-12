@@ -17,7 +17,9 @@ const PopupWithForm = (props) => {
                 <form className={[
                     "popup__form", `popup__form_${props.popupType}`
                 ].join(' ')}
-                    name={props.popupFormName}>
+                    name={props.popupFormName}
+                    onSubmit={props.onSubmit}>
+                        
                     {props.children}
                     <button className={[
                         "popup__submit", `popup__submit_${props.popupType}`

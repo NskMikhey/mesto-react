@@ -45,12 +45,21 @@ function App() {
     setSelectedCard(card);
   }
 
-  /** Закрывает все Popup / сбрасывает состояния */
+  // del
+  const [deletePlacePopupOpen, setDeletePlacePopupOpen] =
+  React.useState(false);
+
+  function handleDeletePlaceClick(card) {
+    setDeletePlacePopupOpen(true);
+  }
+
+  // Закрывает все Popup 
   function closeAllPopups() {
     setEditProfilePopupOpen(false);
     setNewPlacePopupOpen(false);
     setUpdateAvatarPopupOpen(false);
-    setSelectedCard({name: "", link: ""});
+    setSelectedCard({ name: "", link: "" });
+    setDeletePlacePopupOpen(false);
   }
 
   return (
@@ -62,6 +71,7 @@ function App() {
         onNewPlace={handleNewPlaceClick} // добавление карточки
         onUpdateAvatar={handleUpdateAvatarClick} // редактирование аватара
         onCardClick={handleCardClick} // нажатие на карточку
+        onDeleteCard={handleDeletePlaceClick} // удаление карточки
       />
       <Footer />
 
@@ -158,9 +168,10 @@ function App() {
 
       {/* Delete card popup */}
       <PopupWithForm
-        popupType="delete-popup"
+        popupType="delete-place"
         popupTitle="Вы уверены?"
         submitButtonText="Да"
+        popupOpen={deletePlacePopupOpen}
         onClose={closeAllPopups}
       />
 
