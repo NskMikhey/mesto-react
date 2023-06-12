@@ -47,20 +47,17 @@ const Main = (props) => {
                     onClick={props.onNewPlace}
                 />
             </section>
-            <section className="gallery">
-                <ul className="elements">
-                    {cards.map(data => {
-                        return (
-                            <Card
-                                card={data}
-                                key={data._id}
-                                onCardClick={props.onCardClick} // нажатие на карточку
-                                
-                            />
-                        )
-                    })
-                    }
-                </ul>
+            <section className="elements">
+                {cards.map(data => {
+                    return (
+                        <Card
+                            card={data}
+                            key={data._id}
+                            onCardClick={props.onCardClick} // нажатие на карточку
+
+                        />)
+                })
+                }
             </section>
         </main>
     )

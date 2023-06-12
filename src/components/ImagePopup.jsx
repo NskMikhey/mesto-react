@@ -12,7 +12,7 @@ const ImagePopup = (props) => {
                     type="button"
                     aria-label="Закрыть окно"
                     onClick={props.onClose} />
-                <img src={link} alt={name} className="popup__image" />
+                <img src={link} alt={`Изображение ${name}`} className="popup__image" />
                 <p className="popup__image-title">{name}</p>
             </div>
         </section>
