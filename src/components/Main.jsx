@@ -17,6 +17,7 @@ const Main = (props) => {
                 dataCard.forEach(data => data.myid = dataUser._id)
                 setCards(dataCard)
             })
+            .catch(console.error)
     }, [])
 
     return (
