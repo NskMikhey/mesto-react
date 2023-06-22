@@ -1,25 +1,11 @@
-import { useEffect, useState } from "react";
-import api from "../utils/api";
+import React from "react";
 import Card from "./Card";
 import {CurrentUserContext} from "../contexts/CurrentUserContext";
+
 const Main = (props) => {
-    const [userName, setUserName] = useState('')
-    const [userAbout, setUserAbout] = useState('')
-    const [userAvatar, setUserAvatar] = useState('')
-    const [cards, setCards] = useState([])
-
-    useEffect(() => {
-        Promise.all([api.getUserData(), api.getInitialCards()])
-            .then(([dataUser, dataCard]) => {
-                setUserName(dataUser.name)
-                setUserAbout(dataUser.about)
-                setUserAvatar(dataUser.avatar)
-                dataCard.forEach(data => data.myid = dataUser._id)
-                setCards(dataCard)
-            })
-            .catch(console.error)
-    }, [])
-
+    const currentUser = React.useContext(CurrentUserContext);
+    const {name, about, avatar} = currentUser;
+       
     return (
         <main>
             <section className="profile">
@@ -28,9 +14,9 @@ const Main = (props) => {
                     aria-label="Редактировать аватар"
                     onClick={props.onUpdateAvatar}
                 />
-                <img className="profile__avatar" src={userAvatar} alt="аватар" />
+                <img className="profile__avatar" src={avatar} alt="аватар" />
                 <div className="profile__info">
-                    <h1 className="profile__name">{userName}</h1>
+                    <h1 className="profile__name">{name}</h1>
                     <button
                         className="profile__edit-button button-hover"
                         type="button"
@@ -38,7 +24,7 @@ const Main = (props) => {
                         aria-label="Редактировать профиль"
                         onClick={props.onEditProfile}
                     />
-                    <p className="profile__about">{userAbout}</p>
+                    <p className="profile__about">{about}</p>
                 </div>
                 <button
                     className="profile__add-button button-hover"
@@ -49,7 +35,7 @@ const Main = (props) => {
                 />
             </section>
             <section className="elements">
-                {cards.map(data => {
+                {props.cards.map(data => {
                     return (
                         <Card
                             card={data}

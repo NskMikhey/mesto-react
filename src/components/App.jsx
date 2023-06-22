@@ -5,12 +5,15 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-
+import {api} from "../utils/api";
 
 function App() {
 
   // Состояние контекста пользователя 
   const [currentUser, setCurrentUser] = useState({});
+
+  // Состояние массива карточек 
+  const [cards, setCards] = useState([]);
 
   // Состояние Popup редактирования профиля 
   const [editProfilePopupOpen, setEditProfilePopupOpen] =
@@ -83,6 +86,15 @@ function App() {
     return () => document.removeEventListener("keydown", closeByEsc);
   }, []);
 
+  useEffect(() => {
+    Promise.all([api.getUserData(), api.getInitialCards()])
+      .then(([dataUser, dataCard]) => {
+        setCurrentUser(dataUser)
+        setCards(dataCard)
+      })
+      .catch(console.error)
+  }, [])
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="content">
@@ -94,6 +106,7 @@ function App() {
           onUpdateAvatar={handleUpdateAvatarClick} // редактирование аватара
           onCardClick={handleCardClick} // нажатие на карточку
           onDeleteCard={handleDeletePlaceClick} // удаление карточки
+          cards = {cards}
         />
         <Footer />
 
