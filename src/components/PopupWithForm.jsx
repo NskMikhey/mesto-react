@@ -5,7 +5,9 @@ const PopupWithForm = (props) => {
     return (
         <div className={[
             props.popupOpen ? "popup popup_is-opened " : "popup", `popup_${props.popupType}`
-        ].join(' ')}>
+        ].join(' ')}
+            onClick={props.onOverlayClose}
+        >
             <div className={[
                 "popup__container", `popup__container_${props.popupType}`
             ].join(' ')}>
@@ -19,7 +21,7 @@ const PopupWithForm = (props) => {
                 ].join(' ')}
                     name={props.popupFormName}
                     onSubmit={props.onSubmit}>
-                        
+
                     {props.children}
                     <button className={[
                         "popup__submit", `popup__submit_${props.popupType}`

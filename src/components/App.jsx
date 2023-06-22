@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Header from "./Header";
 import Footer from "./Footer";
 import Main from "./Main";
@@ -27,6 +27,10 @@ function App() {
     link: "",
   });
 
+  // Состояние Popup удаления карточки
+  const [deletePlacePopupOpen, setDeletePlacePopupOpen] =
+    React.useState(false);
+
   // Открывает Popup редактирования профиля 
   function handleEditProfileClick() {
     setEditProfilePopupOpen(true);
@@ -45,10 +49,7 @@ function App() {
     setSelectedCard(card);
   }
 
-  // del
-  const [deletePlacePopupOpen, setDeletePlacePopupOpen] =
-  React.useState(false);
-
+  // Открывает Popup удаления карточки
   function handleDeletePlaceClick(card) {
     setDeletePlacePopupOpen(true);
   }
@@ -61,6 +62,24 @@ function App() {
     setSelectedCard({ name: "", link: "" });
     setDeletePlacePopupOpen(false);
   }
+
+  // Закрытие по оверлею
+  function handleOverlayClose(evt) {
+    if (evt.target.classList.contains("popup")) {
+      closeAllPopups();
+    }
+  }
+
+  // Закрытие по ESC 
+  useEffect(() => {
+    const closeByEsc = (evt) => {
+      if (evt.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+    document.addEventListener("keydown", closeByEsc);
+    return () => document.removeEventListener("keydown", closeByEsc);
+  }, []);
 
   return (
     <div className="content">
@@ -82,6 +101,7 @@ function App() {
         submitButtonText="Сохранить"
         popupOpen={editProfilePopupOpen}
         onClose={closeAllPopups}
+        onOverlayClose={handleOverlayClose}
       >
         <label className="popup__input-group" htmlFor="name">
           <input
@@ -118,6 +138,7 @@ function App() {
         submitButtonText="Создать"
         popupOpen={newPlacePopupOpen}
         onClose={closeAllPopups}
+        onOverlayClose={handleOverlayClose}
       >
         <label className="popup__input-group" htmlFor="place-title">
           <input
@@ -152,6 +173,7 @@ function App() {
         submitButtonText="Сохранить"
         popupOpen={updateAvatarPopupOpen}
         onClose={closeAllPopups}
+        onOverlayClose={handleOverlayClose}
       >
         <label className="popup__input-group" htmlFor="avatar_url">
           <input
@@ -173,6 +195,7 @@ function App() {
         submitButtonText="Да"
         popupOpen={deletePlacePopupOpen}
         onClose={closeAllPopups}
+        onOverlayClose={handleOverlayClose}
       />
 
       {/* View image popup */}
@@ -180,6 +203,7 @@ function App() {
         popupOpen={updateAvatarPopupOpen}
         card={selectedCard}
         onClose={closeAllPopups}
+        onOverlayClose={handleOverlayClose}
       />
     </div>
   );

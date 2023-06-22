@@ -1,11 +1,13 @@
 import React from 'react';
 const ImagePopup = (props) => {
 
-    const {name, link} = props.card;
+    const { name, link } = props.card;
 
     return (
         <section className={link !== '' ? "popup popup_is-opened image-popup" : "popup image-popup"}
-         aria-label="попап зума">
+            aria-label="попап зума"
+            onClick={props.onOverlayClose}
+        >
             <div className="popup__image-container" aria-label="зум карточки">
                 <button
                     className="popup__close-button button-hover"
