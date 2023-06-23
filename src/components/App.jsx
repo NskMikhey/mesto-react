@@ -5,7 +5,7 @@ import Main from "./Main";
 import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import {api} from "../utils/api";
+import { api } from "../utils/api";
 
 function App() {
 
@@ -86,13 +86,27 @@ function App() {
     return () => document.removeEventListener("keydown", closeByEsc);
   }, []);
 
+  // Ставит/удаляет лайк
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, isLiked)
+      .then((newCard) => {
+        setCards((state) =>
+          state.map((c) => (c._id === card._id ? newCard : c))
+        );
+      })
+      .catch((err) => console.log(err));
+  }
+
+  //Получаем данные залогиненного пользователя, массив карточек
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([dataUser, dataCard]) => {
         setCurrentUser(dataUser)
         setCards(dataCard)
       })
-      .catch(console.error)
+      .catch((err) => console.error(`Ошибка при загрузке данных с сервера ${err}`))
   }, [])
 
   return (
@@ -106,7 +120,8 @@ function App() {
           onUpdateAvatar={handleUpdateAvatarClick} // редактирование аватара
           onCardClick={handleCardClick} // нажатие на карточку
           onDeleteCard={handleDeletePlaceClick} // удаление карточки
-          cards = {cards}
+          cards={cards}
+          onCardLike={handleCardLike} // лайк/дизлайк
         />
         <Footer />
 

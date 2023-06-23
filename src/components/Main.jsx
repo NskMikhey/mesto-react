@@ -1,11 +1,11 @@
 import React from "react";
 import Card from "./Card";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 const Main = (props) => {
     const currentUser = React.useContext(CurrentUserContext);
-    const {name, about, avatar} = currentUser;
-       
+    const { name, about, avatar } = currentUser;
+
     return (
         <main>
             <section className="profile">
@@ -42,6 +42,7 @@ const Main = (props) => {
                             key={data._id}
                             onCardClick={props.onCardClick} // нажатие на карточку
                             onDeleteCard={props.onDeleteCard}
+                            onCardLike={props.onCardLike}
                         />)
                 })
                 }
