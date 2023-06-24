@@ -6,6 +6,7 @@ import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
+import EditProfilePopup from "./EditProfilePopup";
 
 function App() {
 
@@ -122,6 +123,20 @@ function App() {
       });
   }
 
+  // Отправка данных пользователя, обновление стейта currentUser
+  function handleUpdateUser(inputValues) {
+    setIsLoading(true);
+    api.setUserData(inputValues.name, inputValues.about)
+      .then((user) => {
+        setCurrentUser(user);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
   //Получаем данные залогиненного пользователя, массив карточек
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
@@ -149,41 +164,14 @@ function App() {
         <Footer />
 
         {/* Edit profile popup */}
-        <PopupWithForm
-          popupType="edit-profile"
-          popupTitle="Редактировать профиль"
-          submitButtonText="Сохранить"
+        <EditProfilePopup
           popupOpen={editProfilePopupOpen}
           onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+          isLoading={isLoading}
+          loadingText="Сохранение..."
           onOverlayClose={handleOverlayClose}
-        >
-          <label className="popup__input-group" htmlFor="name">
-            <input
-              className="popup__input popup__input_type_name"
-              type="text"
-              placeholder="Ваше имя"
-              name="name"
-              id="name"
-              required=""
-              minLength={2}
-              maxLength={40}
-            />
-            <span className="popup__error popup__error_type_name" />
-          </label>
-          <label className="popup__input-group" htmlFor="about">
-            <input
-              className="popup__input popup__input_type_about"
-              type="text"
-              placeholder="Вид деятельности"
-              name="about"
-              id="about"
-              required=""
-              minLength={2}
-              maxLength={200}
-            />
-            <span className="popup__error popup__error_type_about" />
-          </label>
-        </PopupWithForm>
+        />
 
         {/* New place popup */}
         <PopupWithForm

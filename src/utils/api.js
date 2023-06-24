@@ -21,7 +21,7 @@ class Api {
         }).then(this._handlePromiseReturn)
     }
     //Отправляет инфо о пользователе на сервер
-    setUserData(data) {
+    setUserData(userName, userAbout) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: {
@@ -29,8 +29,8 @@ class Api {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: data.name,
-                about: data.about,
+                name: userName,
+                about: userAbout
             }),
         }).then(this._handlePromiseReturn)
     }
