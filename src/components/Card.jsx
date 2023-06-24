@@ -26,7 +26,7 @@ const Card = (props) => {
     return (
         <article className="card">
             {owner._id === currentUser._id
-                && <button className="card__remove button" type="button" aria-label="Удалить место"
+                && <button className="card__remove button-hover" type="button" aria-label="Удалить место"
                     onClick={handleDeleteClick} />
             }
             <img src={`${link}`} alt={name} className="card__image" onClick={handleClick} />

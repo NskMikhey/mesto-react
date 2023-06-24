@@ -27,7 +27,8 @@ const PopupWithForm = (props) => {
                         "popup__submit", `popup__submit_${props.popupType}`
                     ].join(' ')}
                         type="submit"
-                        data-value={props.submitButtonText}>{props.submitButtonText}
+                        data-value={props.submitButtonText}>
+                        {props.isLoading ? props.loadingText : props.submitButtonText}
                     </button>
                 </form>
             </div>
