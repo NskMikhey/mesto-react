@@ -52,13 +52,13 @@ class Api {
         }).then(this._handlePromiseReturn)
     }
     //Отправляет данные о новой карточке на сервер
-    addNewCard(data) {
+    addNewCard(cardName, cardLink) {
         return fetch(`${this._baseUrl}/cards`, {
             method: 'POST',
             headers: this._headers,
             body: JSON.stringify({
-                name: data.title,
-                link: data.link
+                name: cardName,
+                link: cardLink
             }),
         }).then(this._handlePromiseReturn)
     }

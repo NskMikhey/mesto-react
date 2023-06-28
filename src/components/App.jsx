@@ -8,6 +8,7 @@ import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
 
 function App() {
 
@@ -152,7 +153,22 @@ function App() {
       });
   }
 
-  //Получаем данные залогиненного пользователя, массив карточек
+
+  // Добавление карточки, обновление стейта cards     
+  function handleAddPlaceSubmit(inputValues) {
+    setIsLoading(true);
+    api.addNewCard(inputValues.name, inputValues.link)
+      .then((data) => {
+        setCards([data, ...cards]);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  //Получение данных пользователя, массива карточек
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
       .then(([dataUser, dataCard]) => {
@@ -189,39 +205,15 @@ function App() {
         />
 
         {/* New place popup */}
-        <PopupWithForm
-          popupType="new-place"
-          popupTitle="Новое место"
-          submitButtonText="Создать"
+        <AddPlacePopup
           popupOpen={newPlacePopupOpen}
           onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+          isLoading={isLoading}
+          loadingText="Добавление..."
           onOverlayClose={handleOverlayClose}
         >
-          <label className="popup__input-group" htmlFor="place-title">
-            <input
-              className="popup__input popup__input_place_title"
-              type="text"
-              placeholder="Название"
-              name="title"
-              id="title"
-              required=""
-              minLength={2}
-              maxLength={30}
-            />
-            <span className="popup__error popup__error_type_title" />
-          </label>
-          <label className="popup__input-group" htmlFor="place-description">
-            <input
-              className="popup__input popup__input_place_description"
-              type="url"
-              placeholder="Ссылка на картинку"
-              name="link"
-              id="link"
-              required=""
-            />
-            <span className="popup__error popup__error_type_link" />
-          </label>
-        </PopupWithForm>
+        </AddPlacePopup>
 
         {/* Update avatar popup */}
         <EditAvatarPopup
