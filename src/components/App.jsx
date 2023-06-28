@@ -7,6 +7,7 @@ import ImagePopup from "./ImagePopup";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
+import EditAvatarPopup from "./EditAvatarPopup";
 
 function App() {
 
@@ -137,6 +138,20 @@ function App() {
       });
   }
 
+  // Обновление аватара, обновление стейта currentUser    
+  function handleUpdateAvatar(avatar) {
+    setIsLoading(true);
+    api.setUserAvatar(avatar.avatar)
+      .then((avatar) => {
+        setCurrentUser(avatar);
+        closeAllPopups();
+      })
+      .catch((err) => console.log(`Ошибка ${err}`))
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
   //Получаем данные залогиненного пользователя, массив карточек
   useEffect(() => {
     Promise.all([api.getUserData(), api.getInitialCards()])
@@ -209,26 +224,14 @@ function App() {
         </PopupWithForm>
 
         {/* Update avatar popup */}
-        <PopupWithForm
-          popupType="avatar-popup"
-          popupTitle="Обновить аватар"
-          submitButtonText="Сохранить"
+        <EditAvatarPopup
           popupOpen={updateAvatarPopupOpen}
           onClose={closeAllPopups}
-          onOverlayClose={handleOverlayClose}
+          onUpdateAvatar={handleUpdateAvatar}
+          isLoading={isLoading}
+          loadingText="Сохранение..."
         >
-          <label className="popup__input-group" htmlFor="avatar_url">
-            <input
-              type="url"
-              className="popup__input popup__input_profile-avatar"
-              name="profile-avatar"
-              id="profile-avatar"
-              placeholder="Ссылка на картинку"
-              required=""
-            />
-            <span className="popup__error popup__error_type_profile-avatar" />
-          </label>
-        </PopupWithForm>
+        </EditAvatarPopup>
 
         {/* Delete card popup */}
         <PopupWithForm
