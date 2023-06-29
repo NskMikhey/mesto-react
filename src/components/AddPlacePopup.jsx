@@ -97,7 +97,7 @@ const AddPlacePopup = (props) => {
                     className="popup__input popup__input_place_title"
                     type="text"
                     placeholder="Название"
-                    value={card.name ? card.name : ""}
+                    value={card.name || ""}
                     name="name"
                     id="name_title"
                     required
@@ -115,7 +115,7 @@ const AddPlacePopup = (props) => {
                     className="popup__input popup__input_place_description"
                     type="url"
                     placeholder="Ссылка на картинку"
-                    value={card.link ? card.link : ""}
+                    value={card.link || ""}
                     name="link"
                     id="place_link"
                     required
