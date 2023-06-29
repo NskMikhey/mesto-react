@@ -1,6 +1,5 @@
 import React from "react";
 
-
 const PopupWithForm = (props) => {
     return (
         <div className={[
@@ -13,7 +12,7 @@ const PopupWithForm = (props) => {
             ].join(' ')}>
                 <button
                     className="popup__close-button button-hover"
-                    type="button" aria-label="Закрыть всплывающее окно"
+                    type="button" aria-label="Закрыть окно"
                     onClick={props.onClose} />
                 <h2 className="popup__title">{props.popupTitle}</h2>
                 <form className={[
@@ -36,5 +35,5 @@ const PopupWithForm = (props) => {
         </div>
     );
 };
-
+PopupWithForm.defaultProps = { isValid: true };
 export default PopupWithForm;
