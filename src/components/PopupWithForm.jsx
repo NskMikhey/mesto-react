@@ -24,7 +24,8 @@ const PopupWithForm = (props) => {
 
                     {props.children}
                     <button className={[
-                        "popup__submit", `popup__submit_${props.popupType}`
+                        "popup__submit", `popup__submit_${props.popupType}`,
+                        !props.isValid ? "popup__submit_disabled" : ""
                     ].join(' ')}
                         type="submit"
                         data-value={props.submitButtonText}>

@@ -4,12 +4,17 @@ import PopupWithForm from "./PopupWithForm";
 
 const EditProfilePopup = (props) => {
 
-    // Контекст currentUser 
+    // Контекст currentUser
     const currentUser = React.useContext(CurrentUserContext);
     const { name, about } = currentUser;
 
-    // Состояние данных пользователя 
+    // Стейты данных пользователя, валидации всей формы, инпутов и сообщений ошибок валидации
     const [userData, setUserData] = React.useState({ name: '', about: '' });
+
+    // Стейты валидации инпутов, формы  сообщений ошибок валидации
+    const [formInputsValid, setFormInputsValid] = React.useState({ name: true, about: true });
+    const [formValidationMessages, setFormValidationMessages] = React.useState({ name: "", about: "" });
+    const [formValid, setFormValid] = React.useState(true);
 
     // Изменяет состояние userData
     function handleUserDataChange(evt) {
@@ -18,30 +23,80 @@ const EditProfilePopup = (props) => {
             ...userData,
             [name]: value
         })
+        handleInputValid(evt);
     }
 
-    // Отправка формы   
+    // Отправка формы
     function handleSubmit(evt) {
         evt.preventDefault();
         props.onUpdateUser(userData);
+        setFormInputsValid({ name: true, about: true });
+        setFormValidationMessages({ name: "", about: "" });
+        setFormValid(true);
+    }
+
+    // Закрытие и сброс
+    function handleOnClose() {
+        props.onClose();
+        setUserData({ "name": currentUser.name, "about": currentUser.about });
+        setFormInputsValid({ name: true, about: true });
+        setFormValidationMessages({ name: "", about: "" });
+        setFormValid(true);
+    }
+
+    // Обрабатывает валидацию ввода события
+    const handleInputValid = (evt) => {
+        evt.preventDefault();
+        const { name } = evt.target;
+
+        if (!evt.target.validity.valid) {
+
+            setFormInputsValid({
+                ...formInputsValid,
+                [name]: false
+            });
+
+            setFormValidationMessages({
+                ...formValidationMessages,
+                [name]: evt.target.validationMessage
+            });
+
+        } else {
+            setFormInputsValid({
+                ...formInputsValid,
+                [name]: true
+            });
+
+            setFormValidationMessages({
+                ...formValidationMessages,
+                [name]: ""
+            });
+        }
     }
 
     React.useEffect(() => {
-        setUserData({ "name": name, "about": about })
+        setUserData({ "name": name, "about": about });
     }, [name, about]);
+
+    React.useEffect(() => {
+        const formInputsValidValues = Object.values(formInputsValid);
+        const isFormValid = formInputsValidValues.includes(false) ? false : true;
+        setFormValid(isFormValid);
+    }, [formInputsValid]);
 
     return (
         <PopupWithForm
             popupOpen={props.popupOpen}
-            popupFormName="profileContent"
-            popupType="edit-profile"
+            popupType="edit_profile"
             popupTitle="Редактировать профиль"
+            popupFormName="profileForm"
             submitButtonText="Сохранить"
-            onClose={props.onClose}
+            onClose={handleOnClose}
             onSubmit={handleSubmit}
             isLoading={props.isLoading}
             loadingText={props.loadingText}
             onOverlayClose={props.onOverlayClose}
+            isValid={formValid}
         >
             <label className="popup__input-group" htmlFor="name">
                 <input
@@ -53,10 +108,13 @@ const EditProfilePopup = (props) => {
                     required
                     minLength={2}
                     maxLength={40}
-                    onChange={handleUserDataChange}
                     value={userData.name ? userData.name : ""}
+                    onChange={handleUserDataChange}
                 />
-                <span className="popup__error popup__error_type_name" />
+                <span
+                    className={["popup__error", formValidationMessages.name !== "" ? "popup__error_visible" : ""].join(" ")}
+                    id="popup__error_type_name">
+                    {formValidationMessages.name}</span>
             </label>
             <label className="popup__input-group" htmlFor="about">
                 <input
@@ -68,10 +126,13 @@ const EditProfilePopup = (props) => {
                     required
                     minLength={2}
                     maxLength={200}
-                    onChange={handleUserDataChange}
                     value={userData.about ? userData.about : ""}
+                    onChange={handleUserDataChange}
                 />
-                <span className="popup__error popup__error_type_about" />
+                <span
+                    className={["popup__error", formValidationMessages.about !== "" ? "popup__error_visible" : ""].join(" ")}
+                    id="popup__error_type_about">
+                    {formValidationMessages.about}</span>
             </label>
         </PopupWithForm>
     );
