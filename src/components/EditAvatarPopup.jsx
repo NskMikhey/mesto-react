@@ -70,7 +70,6 @@ const EditAvatarPopup = (props) => {
         }
     }
 
-
     React.useEffect(() => {
         refAvatar.current.value = "";
     }, [props.popupOpen]);
@@ -108,10 +107,7 @@ const EditAvatarPopup = (props) => {
                     onChange={handleInputChange}
                 />
                 <span
-                    className={[
-                        "popup__error",
-                        formValidationMessages.avatar !== "" ? "popup__error_visible" : ""
-                    ].join(" ")}
+                    className={["popup__error", formValidationMessages.avatar !== "" ? "popup__error_visible" : ""].join(" ")}
                     id="popup__error_type_profile-avatar"
                 >{formValidationMessages.avatar}</span>
             </label>

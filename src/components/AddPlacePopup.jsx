@@ -6,9 +6,48 @@ const AddPlacePopup = (props) => {
     // Стейт карточки с названием и ссылкой на изображение 
     const [card, setCard] = React.useState({ name: '', link: '' });
 
-    React.useEffect(() => {
-        setCard({ name: '', link: '' });
-    }, [props.popupOpen])
+    // Стейты валидации инпутов, формы  сообщений ошибок валидации
+    const [formInputsValid, setFormInputsValid] = React.useState({ name: true, about: true });
+    const [formValidationMessages, setFormValidationMessages] = React.useState({ name: "", about: "" });
+    const [formValid, setFormValid] = React.useState(true);
+
+    // Обрабатывает валидацию ввода события
+    const handleInputValid = (evt) => {
+        evt.preventDefault();
+        const { name } = evt.target;
+
+        if (!evt.target.validity.valid) {
+
+            setFormInputsValid({
+                ...formInputsValid,
+                [name]: false
+            });
+
+            setFormValidationMessages({
+                ...formValidationMessages,
+                [name]: evt.target.validationMessage
+            });
+
+        } else {
+            setFormInputsValid({
+                ...formInputsValid,
+                [name]: true
+            });
+
+            setFormValidationMessages({
+                ...formValidationMessages,
+                [name]: ""
+            });
+        }
+    }
+
+    // Закрытие и сброс
+    function handleOnClose() {
+        props.onClose();
+        setFormInputsValid({ name: false, link: false });
+        setFormValidationMessages({ name: "", link: "" });
+        setFormValid(false);
+    }
 
     // Изменяет стейт card 
     function handleCardChange(evt) {
@@ -17,13 +56,27 @@ const AddPlacePopup = (props) => {
             ...card,
             [name]: value
         })
+        handleInputValid(evt);
     }
 
     // Отправка формы
     function handleSubmit(evt) {
         evt.preventDefault();
         props.onAddPlace(card);
+        setFormInputsValid({ name: false, link: false });
+        setFormValidationMessages({ name: "", link: "" });
+        setFormValid(false);
     }
+
+    React.useEffect(() => {
+        setCard({ name: '', link: '' });
+    }, [props.popupOpen])
+
+    React.useEffect(() => {
+        const formInputsValidValues = Object.values(formInputsValid);
+        const isFormValid = formInputsValidValues.includes(false) ? false : true;
+        setFormValid(isFormValid);
+    }, [formInputsValid]);
 
     return (
         <PopupWithForm
@@ -31,12 +84,13 @@ const AddPlacePopup = (props) => {
             popupTitle="Новое место"
             submitButtonText="Создать"
             popupOpen={props.popupOpen}
-            onClose={props.onClose}
+            onClose={handleOnClose}
             onOverlayClose={props.onOverlayClose}
             popupFormName="newPlaceForm"
             onSubmit={handleSubmit}
             isLoading={props.isLoading}
             loadingText={props.loadingText}
+            isValid={formValid}
         >
             <label className="popup__input-group" htmlFor="place-title">
                 <input
@@ -51,7 +105,10 @@ const AddPlacePopup = (props) => {
                     maxLength={30}
                     onChange={handleCardChange}
                 />
-                <span className="popup__error popup__error_type_title" />
+                <span
+                    className={["popup__error", formValidationMessages.name !== "" ? "popup__error_visible" : ""].join(" ")}
+                    id="place_name-error"
+                >{formValidationMessages.name}</span>
             </label>
             <label className="popup__input-group" htmlFor="place-description">
                 <input
@@ -64,7 +121,10 @@ const AddPlacePopup = (props) => {
                     required
                     onChange={handleCardChange}
                 />
-                <span className="popup__error popup__error_type_link" />
+                <span
+                    className={["popup__error", formValidationMessages.link !== "" ? "popup__error_visible" : ""].join(" ")}
+                    id="place_url-error"
+                >{formValidationMessages.link}</span>
             </label>
         </PopupWithForm>
     );
