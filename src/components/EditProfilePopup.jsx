@@ -76,19 +76,19 @@ const EditProfilePopup = (props) => {
 
     React.useEffect(() => {
         setUserData({ "name": name, "about": about });
-    }, [name, about]);
+    }, [name, about, props.popupOpen]);
 
     React.useEffect(() => {
         const formInputsValidValues = Object.values(formInputsValid);
         const isFormValid = formInputsValidValues.includes(false) ? false : true;
         setFormValid(isFormValid);
-    }, [formInputsValid]);
+    }, [formInputsValid, props.popupOpen]);
 
     return (
         <PopupWithForm
             popupOpen={props.popupOpen}
             popupType="edit_profile"
-            popupTitle="Редактировать профиль"
+            popupTitle="Редактировать профиль"s
             popupFormName="profileForm"
             submitButtonText="Сохранить"
             onClose={handleOnClose}

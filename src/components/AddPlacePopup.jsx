@@ -76,7 +76,7 @@ const AddPlacePopup = (props) => {
         const formInputsValidValues = Object.values(formInputsValid);
         const isFormValid = formInputsValidValues.includes(false) ? false : true;
         setFormValid(isFormValid);
-    }, [formInputsValid]);
+    }, [formInputsValid, props.popupOpen]);
 
     return (
         <PopupWithForm
