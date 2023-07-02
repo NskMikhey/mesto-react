@@ -219,6 +219,7 @@ function App() {
         <EditAvatarPopup
           popupOpen={updateAvatarPopupOpen}
           onClose={closeAllPopups}
+          onOverlayClose={handleOverlayClose}
           onUpdateAvatar={handleUpdateAvatar}
           isLoading={isLoading}
           loadingText="Сохранение..."
